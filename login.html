@@ -191,14 +191,20 @@
       const password = document.getElementById('password').value;
       xhr.send(JSON.stringify({username, password}));
       xhr.onreadystatechange = function(){
+        
         if(xhr.readyState === 4 && xhr.status === 200){
-          if(JSON.parse(xhr.response).resultCode !== 0){
-            alert(JSON.parse(xhr.response).message);
-          } else {
-            location.href = "/admin.html";
-          }
+          result = JSON.parse(xhr.response)
+          
+          if(JSON.parse(xhr.response).error === -1){
+            alert(JSON.parse(xhr.response).message);           
+          } 
+          if(JSON.parse(xhr.response).error === 0){
+            location.href = "admin.html";
+           } 
         }
       }
+      
+      
     }
   </script>
 </html>
