@@ -73,30 +73,45 @@
       const $infoContainer = $("#info-container");
       const $content = $("#content");
 
+      // // login-test
+      // const url = "/api/user/login-test";
+      // get(url).then((res) => {
+      //   if (res.error === 0) {
+            
+      //     return;
+      //   } else {
+      //     alert("no login");
+      //   }
+
       // 获取数据
       const urlParams = getUrlParams();
       const url = "/api/blog/detail?id=" + urlParams.id;
       get(url).then((res) => {
-        if (res.resultCode !== 0) {
-          alert("数据错误");
-          return;
-        }
+        if (res.error === 0) {
+          // 显示数据
+          const data = res.data || {};
 
-        // 显示数据
-        const data = res.data || {};
-        $title.text(data.title);
-        $content.text(data.content);
-        $infoContainer.append(
+          $title.text(data.title);
+          $content.text(data.content);
+          $infoContainer.append(
           $(`
-                <span>
-                    <a href="/index.html?author=${data.author}">${
-            data.author
+              <span>
+                  <a href="/index.html?author=${data.author}">${
+          data.author
           }</a>
-                </span>
-                <span>${getFormatDate(data.createtime)}</span>
-            `)
-        );
+              </span>
+              <span>${getFormatDate(data.createtime)}</span>
+          `)
+          );
+          return;
+        } else {
+          alert("数据错误");
+        }
       });
+          
+      
+
+     
     </script>
   </body>
 </html>

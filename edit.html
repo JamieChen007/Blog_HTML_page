@@ -86,7 +86,7 @@
       const urlParams = getUrlParams();
       const url = "/api/blog/detail?id=" + urlParams.id;
       get(url).then((res) => {
-        if (res.resultCode !== 0) {
+        if (res.error !== 0) {
           alert("操作错误");
           return;
         }
@@ -111,12 +111,14 @@
           content,
         };
         post(url, data).then((res) => {
-          if (res.resultCode !== 0) {
-            alert("操作错误");
+          if (res.error === 0) {
+            alert("更新成功");
+            location.href = "/admin.html";
             return;
+          } else {
+            alert("操作错误");
           }
-          alert("更新成功");
-          location.href = "/admin.html";
+          
         });
       });
     </script>

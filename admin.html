@@ -94,30 +94,31 @@
 
       // 加载数据
       get(url).then((res) => {
-        if (res.resultCode !== 0) {
-          alert("数据错误");
+        
+        if (res.error === 0) {
+            // 显示数据
+          const data = res.data || [];
+          data.forEach((item) => {
+            $tableContainer.append(
+              $(`
+                <tr>
+                    <td>
+                        <a href="/detail.html?id=${item.id}" target="_blank">${item.title}</a>
+                    </td>
+                    <td>
+                        <a href="/edit.html?id=${item.id}">编辑</a>
+                    </td>
+                    <td>
+                        <a data-id="${item.id}" class="item-del">删除</a>
+                    </td>
+                </tr>
+              `)
+            );
+          });
           return;
+        } else {
+          alert("数据错误");
         }
-
-        // 显示数据
-        const data = res.data || [];
-        data.forEach((item) => {
-          $tableContainer.append(
-            $(`
-              <tr>
-                  <td>
-                      <a href="/detail.html?id=${item.id}" target="_blank">${item.title}</a>
-                  </td>
-                  <td>
-                      <a href="/edit.html?id=${item.id}">编辑</a>
-                  </td>
-                  <td>
-                      <a data-id="${item.id}" class="item-del">删除</a>
-                  </td>
-              </tr>
-            `)
-          );
-        });
       });
 
       // 搜索
@@ -136,11 +137,13 @@
         if (confirm("确定删除？")) {
           const url = "/api/blog/delete?id=" + $target.attr("data-id");
           post(url).then((res) => {
-            if (res.resultCode !== 0) {
-              alert("操作错误");
+            if (res.error === 0) {
+              location.href = location.href;
               return;
+            } else {
+              alert("操作错误");
             }
-            location.href = location.href;
+            
           });
         }
       });

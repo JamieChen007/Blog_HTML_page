@@ -63,6 +63,15 @@
       $textContent = $("#text-content");
       $btnCreate = $("#btn-create");
 
+      // // login-test
+      // const url = "/api/user/login-test";
+      // get(url).then((res) => {
+      //   if (res.error !== 0) {
+      //     alert("no login");
+      //     return;
+      //   } 
+      // })
+
       // 提交数据
       $btnCreate.click(() => {
         const title = $textTitle.val().trim();
@@ -78,11 +87,13 @@
           content,
         };
         post(url, data).then((res) => {
-          if (res.resultCode !== 0) {
-            alert("操作错误");
+          if (res.error === 0) {
+            location.href = "/admin.html";
             return;
-          }
-          location.href = "/admin.html";
+          }else {
+            alert("操作错误");
+          } 
+          
         });
       });
     </script>

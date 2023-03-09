@@ -77,34 +77,36 @@
 
       // 加载数据
       get(url).then((res) => {
-        if (res.resultCode !== 0) {
-          alert("数据错误");
+        if (res.error === 0) {
+          // 遍历博客列表，并显示
+          const data = res.data || [];
+          data.forEach((item) => {
+          $container.append(
+          $(`
+            <div class="title-wrapper">
+                <p class="title">
+                <a href="/detail.html?id=${item.id}" target="_blank">${
+                  item.title
+                }</a>
+                </p>
+                <div class="info-wrapper">
+                  <span>
+                    <a href="/index.html?author=${item.author}">${
+                      item.author
+                    }</a>
+                  </span>
+                  <span>${getFormatDate(item.createtime)}</span>
+                </div>
+            </div>
+          `)
+          );
+          });
           return;
+        } else {
+          alert("数据错误");
         }
 
-        // 遍历博客列表，并显示
-        const data = res.data || [];
-        data.forEach((item) => {
-          $container.append(
-            $(`
-              <div class="title-wrapper">
-                  <p class="title">
-                  <a href="/detail.html?id=${item.id}" target="_blank">${
-                    item.title
-                  }</a>
-                  </p>
-                  <div class="info-wrapper">
-                    <span>
-                      <a href="/index.html?author=${item.author}">${
-                        item.author
-                      }</a>
-                    </span>
-                    <span>${getFormatDate(item.createtime)}</span>
-                  </div>
-              </div>
-            `)
-          );
-        });
+        
       });
     </script>
   </body>
